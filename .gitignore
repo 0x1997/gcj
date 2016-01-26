@@ -16,3 +16,7 @@
 
 # Eclipse RustDT
 .project
+
+# GCJ test cases
+*.in
+*.out
