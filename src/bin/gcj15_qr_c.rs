@@ -34,7 +34,14 @@ impl fmt::Display for Q {
             Q::J(s) => (s, 'j'),
             Q::K(s) => (s, 'k'),
         };
-        write!(f, "{}{}", if sign > 0 { "" } else { "-" }, ch)
+        write!(f,
+               "{}{}",
+               if sign > 0 {
+                   ""
+               } else {
+                   "-"
+               },
+               ch)
     }
 }
 
@@ -117,12 +124,8 @@ impl<'a> Iterator for Input<'a> {
 
 fn calc(l: i64, x: i64, line: &str) -> bool {
     if !match Input::new(l, 1, line.as_bytes()).product() {
-        Q::O(s) => {
-            s == -1 && x % 2 == 1
-        }
-        _ => {
-            x % 4 == 2
-        }
+        Q::O(s) => s == -1 && x % 2 == 1,
+        _ => x % 4 == 2,
     } {
         return false;
     }

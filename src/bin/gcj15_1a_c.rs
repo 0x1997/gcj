@@ -4,14 +4,16 @@ use std::io;
 #[derive(Debug)]
 struct IntVec {
     x: i64,
-    y: i64
+    y: i64,
 }
 
 impl IntVec {
-    fn new<T: Copy>(p1: &(T, T), p2: &(T, T)) -> IntVec where i64: From<T> {
+    fn new<T: Copy>(p1: &(T, T), p2: &(T, T)) -> IntVec
+        where i64: From<T>
+    {
         IntVec {
-            x: i64::from(p2.0)  - i64::from(p1.0),
-            y: i64::from(p2.1)  - i64::from(p1.1)
+            x: i64::from(p2.0) - i64::from(p1.0),
+            y: i64::from(p2.1) - i64::from(p1.1),
         }
     }
 }
@@ -30,7 +32,7 @@ fn quadrant_order(a: &IntVec) -> i32 {
         (-1, -1) => 5,
         (0, -1) => 6,
         (1, -1) => 7,
-        _ => unreachable!()
+        _ => unreachable!(),
     }
 }
 
@@ -40,21 +42,24 @@ fn calc(points: &Vec<(i32, i32)>) {
         for _ in points {
             println!("0");
         }
-        return
+        return;
     }
     for i in points {
         let mut surround: Vec<IntVec> = points.iter()
-            .filter(|&j| *i != *j)
-            .map(|j| IntVec::new(i, j)).collect();
+                                              .filter(|&j| *i != *j)
+                                              .map(|j| IntVec::new(i, j))
+                                              .collect();
         surround.sort_by(|a, b| {
             match quadrant_order(a).cmp(&quadrant_order(b)) {
-                Equal => match cross(a, b).signum() {
-                    1 => Less,
-                    0 => Equal,
-                    -1 => Greater,
-                    _ => unreachable!()
-                },
-                ord @ _ => ord
+                Equal => {
+                    match cross(a, b).signum() {
+                        1 => Less,
+                        0 => Equal,
+                        -1 => Greater,
+                        _ => unreachable!(),
+                    }
+                }
+                ord @ _ => ord,
             }
         });
         let surround = &surround;
@@ -72,25 +77,29 @@ fn calc(points: &Vec<(i32, i32)>) {
                     head + 1
                 };
                 if next_head == tail {
-                    break
+                    break;
                 }
                 let vec_next_head = &surround[next_head];
                 let turn = cross(vec_tail, vec_next_head);
                 if turn > 0 {
                     head = next_head;
                     head_eq_tail = false;
-                } else if turn == 0 && head_eq_tail
-                    && quadrant_order(vec_tail) == quadrant_order(vec_next_head) {
+                } else if turn == 0 && head_eq_tail &&
+                   quadrant_order(vec_tail) == quadrant_order(vec_next_head) {
                     head = next_head;
                 } else {
-                    break
+                    break;
                 }
             }
-            let window_size = if head < tail { len - tail + head } else { head - tail };
+            let window_size = if head < tail {
+                len - tail + head
+            } else {
+                head - tail
+            };
             if window_size < min_cuts {
                 min_cuts = window_size;
                 if min_cuts == 0 {
-                    break
+                    break;
                 }
             }
 
