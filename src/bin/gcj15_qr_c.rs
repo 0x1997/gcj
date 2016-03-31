@@ -1,5 +1,7 @@
 #![feature(iter_arith)]
 #![feature(zero_one)]
+#![cfg_attr(feature="clippy", feature(plugin))]
+#![cfg_attr(feature="clippy", plugin(clippy))]
 
 use std::cmp::min;
 use std::fmt;

@@ -1,4 +1,6 @@
 #![feature(iter_arith)]
+#![cfg_attr(feature="clippy", feature(plugin))]
+#![cfg_attr(feature="clippy", plugin(clippy))]
 
 use std::cmp::min;
 use std::io;

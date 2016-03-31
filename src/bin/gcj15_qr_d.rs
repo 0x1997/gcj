@@ -1,3 +1,6 @@
+#![cfg_attr(feature="clippy", feature(plugin))]
+#![cfg_attr(feature="clippy", plugin(clippy))]
+
 use std::io;
 
 fn calc(x: i32, r: i32, c: i32) -> bool {

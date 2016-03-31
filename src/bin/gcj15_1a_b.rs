@@ -1,3 +1,6 @@
+#![cfg_attr(feature="clippy", feature(plugin))]
+#![cfg_attr(feature="clippy", plugin(clippy))]
+
 use std::io;
 
 fn calc(b: usize, n: usize, m: &Vec<usize>) -> usize {
