@@ -23,7 +23,7 @@ fn calc(x: i32, r: i32, c: i32) -> bool {
     if x <= g_s {
         return false;
     }
-    // R: strech R x C
+    // R: stretch R x C
     if x > g_l || x / 2 + x % 2 > g_s {
         return true;
     }
