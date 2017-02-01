@@ -1,6 +1,3 @@
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
-
 use std::cmp::Ordering::{Equal, Greater, Less};
 use std::io;
 
@@ -39,7 +36,7 @@ fn quadrant_order(a: &IntVec) -> i32 {
     }
 }
 
-fn calc(points: &Vec<(i32, i32)>) {
+fn calc(points: &[(i32, i32)]) {
     let len = points.len();
     if len <= 3 {
         for _ in points {
@@ -49,28 +46,25 @@ fn calc(points: &Vec<(i32, i32)>) {
     }
     for i in points {
         let mut surround: Vec<IntVec> = points.iter()
-                                              .filter(|&j| *i != *j)
-                                              .map(|j| IntVec::new(i, j))
-                                              .collect();
-        surround.sort_by(|a, b| {
-            match quadrant_order(a).cmp(&quadrant_order(b)) {
-                Equal => {
-                    match cross(a, b).signum() {
-                        1 => Less,
-                        0 => Equal,
-                        -1 => Greater,
-                        _ => unreachable!(),
-                    }
+            .filter(|&j| *i != *j)
+            .map(|j| IntVec::new(i, j))
+            .collect();
+        surround.sort_by(|a, b| match quadrant_order(a).cmp(&quadrant_order(b)) {
+            Equal => {
+                match cross(a, b).signum() {
+                    1 => Less,
+                    0 => Equal,
+                    -1 => Greater,
+                    _ => unreachable!(),
                 }
-                ord @ _ => ord,
             }
+            ord => ord,
         });
         let surround = &surround;
         let len = surround.len();
         let mut min_cuts = len;
         let mut head = 0;
-        for tail in 0..len {
-            let vec_tail = &surround[tail];
+        for (tail, vec_tail) in surround.iter().enumerate() {
             let mut head_eq_tail = head == tail;
             loop {
                 let next_head = if head + 1 == len {
@@ -88,7 +82,7 @@ fn calc(points: &Vec<(i32, i32)>) {
                     head = next_head;
                     head_eq_tail = false;
                 } else if turn == 0 && head_eq_tail &&
-                   quadrant_order(vec_tail) == quadrant_order(vec_next_head) {
+                          quadrant_order(vec_tail) == quadrant_order(vec_next_head) {
                     head = next_head;
                 } else {
                     break;
@@ -126,18 +120,18 @@ fn main() {
         let num_trees: u32 = case.trim().parse().unwrap();
         case.clear();
         let trees = (0..num_trees)
-                        .map(|_| {
-                            stdin.read_line(&mut case).unwrap();
-                            let point = {
-                                let mut iter = case.trim()
-                                                   .split_whitespace()
-                                                   .map(|n| n.parse::<i32>().unwrap());
-                                (iter.next().unwrap(), iter.next().unwrap())
-                            };
-                            case.clear();
-                            point
-                        })
-                        .collect::<Vec<_>>();
+            .map(|_| {
+                stdin.read_line(&mut case).unwrap();
+                let point = {
+                    let mut iter = case.trim()
+                        .split_whitespace()
+                        .map(|n| n.parse::<i32>().unwrap());
+                    (iter.next().unwrap(), iter.next().unwrap())
+                };
+                case.clear();
+                point
+            })
+            .collect::<Vec<_>>();
         println!("Case #{}:", t + 1);
         calc(&trees);
     }

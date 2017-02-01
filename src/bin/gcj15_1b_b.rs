@@ -1,6 +1,3 @@
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
-
 use std::cmp::{max, min};
 use std::io;
 
@@ -55,9 +52,9 @@ fn main() {
     for t in 0..test_cases {
         stdin.read_line(&mut case).unwrap();
         let input = case.trim()
-                        .split_whitespace()
-                        .map(|n| n.parse::<usize>().unwrap())
-                        .collect::<Vec<_>>();
+            .split_whitespace()
+            .map(|n| n.parse::<usize>().unwrap())
+            .collect::<Vec<_>>();
         case.clear();
         let result = calc(input[0], input[1], input[2]);
         println!("Case #{}: {}", t + 1, result);

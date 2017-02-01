@@ -1,7 +1,3 @@
-#![feature(iter_arith)]
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
-
 use std::cmp::min;
 use std::io;
 
@@ -9,8 +5,8 @@ fn calc(plates: &mut Vec<i32>) -> i32 {
     let max_pancakes = *plates.iter().max().unwrap();
     (1..max_pancakes).fold(max_pancakes, |minutes, x| {
         let moves: i32 = plates.iter()
-                               .map(|plate| (plate - 1) / x)
-                               .sum();
+            .map(|plate| (plate - 1) / x)
+            .sum();
         min(minutes, x + moves)
     })
 }
@@ -27,9 +23,9 @@ fn main() {
         case.clear();
         stdin.read_line(&mut case).unwrap();
         let minutes = calc(&mut case.trim()
-                                    .split_whitespace()
-                                    .map(|plate| plate.parse::<i32>().unwrap())
-                                    .collect::<Vec<i32>>());
+            .split_whitespace()
+            .map(|plate| plate.parse::<i32>().unwrap())
+            .collect::<Vec<i32>>());
         case.clear();
         println!("Case #{}: {}", t + 1, minutes);
     }

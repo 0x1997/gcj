@@ -1,10 +1,7 @@
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
-
 use std::cmp::min;
 use std::io;
 
-fn calc(n: &Vec<u32>) -> (u32, u32) {
+fn calc(n: &[u32]) -> (u32, u32) {
     let mut sum1 = 0;
     let mut prev = 0;
     let mut speed = 0;
@@ -39,9 +36,9 @@ fn main() {
         case.clear();
         stdin.read_line(&mut case).unwrap();
         let result = calc(&case.trim()
-                               .split_whitespace()
-                               .map(|n| n.parse::<u32>().unwrap())
-                               .collect::<Vec<u32>>());
+            .split_whitespace()
+            .map(|n| n.parse::<u32>().unwrap())
+            .collect::<Vec<u32>>());
         case.clear();
         println!("Case #{}: {} {}", t + 1, result.0, result.1);
     }

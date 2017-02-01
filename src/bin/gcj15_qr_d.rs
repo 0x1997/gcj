@@ -1,6 +1,3 @@
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
-
 use std::io;
 
 fn calc(x: i32, r: i32, c: i32) -> bool {
@@ -14,11 +11,7 @@ fn calc(x: i32, r: i32, c: i32) -> bool {
     if p % x != 0 {
         return true;
     }
-    let (g_l, g_s) = if r > c {
-        (r, c)
-    } else {
-        (c, r)
-    };
+    let (g_l, g_s) = if r > c { (r, c) } else { (c, r) };
     // R: can do nothing
     if x <= g_s {
         return false;
@@ -64,10 +57,6 @@ fn main() {
         case.clear();
         println!("Case #{}: {}",
                  t + 1,
-                 if result {
-                     "RICHARD"
-                 } else {
-                     "GABRIEL"
-                 });
+                 if result { "RICHARD" } else { "GABRIEL" });
     }
 }

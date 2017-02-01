@@ -2,6 +2,3 @@
 name = "gcj"
 version = "0.1.0"
 authors = ["Zhe Wang <0x1998@gmail.com>"]
-
-[dependencies]
-clippy = "*"

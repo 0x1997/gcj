@@ -1,9 +1,6 @@
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
-
 use std::io;
 
-fn calc(b: usize, n: usize, m: &Vec<usize>) -> usize {
+fn calc(b: usize, n: usize, m: &[usize]) -> usize {
     let n = n - 1;
     let mut min = 100000;
     let mut max = 1;
@@ -25,11 +22,7 @@ fn calc(b: usize, n: usize, m: &Vec<usize>) -> usize {
         let mut prev = 0;
         for (i, x) in m.iter().enumerate() {
             let done = mid / x;
-            let doing = if mid % x > 0 {
-                1
-            } else {
-                0
-            };
+            let doing = if mid % x > 0 { 1 } else { 0 };
             prev += done + doing;
             if prev > n {
                 max = mid;
@@ -65,9 +58,9 @@ fn main() {
         let result = calc(b,
                           n,
                           &case.trim()
-                               .split_whitespace()
-                               .map(|n| n.parse::<usize>().unwrap())
-                               .collect::<Vec<_>>());
+                              .split_whitespace()
+                              .map(|n| n.parse::<usize>().unwrap())
+                              .collect::<Vec<_>>());
         case.clear();
         println!("Case #{}: {}", t + 1, result);
     }

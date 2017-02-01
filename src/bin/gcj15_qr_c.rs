@@ -1,13 +1,8 @@
-#![feature(iter_arith)]
-#![feature(zero_one)]
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
-
 use std::cmp::min;
 use std::fmt;
 use std::io;
-use std::num::One;
-use std::ops::{Mul, Neg};
+use std::iter;
+use std::ops;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 enum Q {
@@ -36,24 +31,11 @@ impl fmt::Display for Q {
             Q::J(s) => (s, 'j'),
             Q::K(s) => (s, 'k'),
         };
-        write!(f,
-               "{}{}",
-               if sign > 0 {
-                   ""
-               } else {
-                   "-"
-               },
-               ch)
+        write!(f, "{}{}", if sign > 0 { "" } else { "-" }, ch)
     }
 }
 
-impl One for Q {
-    fn one() -> Q {
-        Q::O(1)
-    }
-}
-
-impl Neg for Q {
+impl ops::Neg for Q {
     type Output = Q;
 
     fn neg(self) -> Q {
@@ -66,7 +48,7 @@ impl Neg for Q {
     }
 }
 
-impl Mul for Q {
+impl ops::Mul for Q {
     type Output = Q;
 
     fn mul(self, rhs: Q) -> Q {
@@ -91,6 +73,12 @@ impl Mul for Q {
             (Q::K(sa), Q::J(sb)) => Q::I(-sa * sb),
             (Q::K(sa), Q::K(sb)) => Q::O(-sa * sb),
         }
+    }
+}
+
+impl iter::Product<Q> for Q {
+    fn product<I: Iterator<Item = Q>>(iter: I) -> Q {
+        iter.fold(Q::O(1), ops::Mul::mul)
     }
 }
 
@@ -165,12 +153,6 @@ fn main() {
         stdin.read_line(&mut case).unwrap();
         let result = calc(l, x, case.trim());
         case.clear();
-        println!("Case #{}: {}",
-                 t + 1,
-                 if result {
-                     "YES"
-                 } else {
-                     "NO"
-                 });
+        println!("Case #{}: {}", t + 1, if result { "YES" } else { "NO" });
     }
 }

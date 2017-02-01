@@ -1,6 +1,3 @@
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
-
 extern crate gcj;
 
 use std::io;
@@ -62,9 +59,9 @@ fn main() {
         for _ in 0..num_groups {
             stdin.read_line(&mut line).unwrap();
             let group = line.trim()
-                            .split_whitespace()
-                            .map(|n| n.parse::<usize>().unwrap())
-                            .collect::<Vec<_>>();
+                .split_whitespace()
+                .map(|n| n.parse::<usize>().unwrap())
+                .collect::<Vec<_>>();
             line.clear();
             for i in 0..group[1] {
                 let time_per_deg = group[2] + i;
